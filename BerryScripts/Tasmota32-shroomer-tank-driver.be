@@ -157,7 +157,7 @@ class ShroomerTank : Driver
         webserver.content_start('The Shroomer Web UI')
         #MyHttpManager().set_reload();
         webserver.content_send_style()
-        var tank_str = str(self.tank_data)
+        var tank_str = string.format("%i", self.tank_data)
         MyHttpManager().show_tank(tank_str)
         webserver.content_stop()
     end
