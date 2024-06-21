@@ -8,6 +8,8 @@
    
 #- *************************************** -#
 import webserver
+import json
+import string
 
 class MyHttpManager
 
@@ -85,7 +87,6 @@ class ShroomerTank : Driver
     def tank_do()
 
         # Read Sensor data
-        import json
         var MySensors = json.load(tasmota.read_sensors())
         if !(MySensors.contains('VL53L0X')) return end
         var d = MySensors['VL53L0X']['Distance']
@@ -127,20 +128,19 @@ class ShroomerTank : Driver
     # ---------------------
 
     def web_sensor()
-        import string
-        if !self.tank_data return nil end               # exit if not initialized
-        var msg = string.format(
-                  "Percent Full: %.f",
-                  self.tank_data)
-        tasmota.web_send_decimal(msg)
+
+        #if !self.tank_data return nil end               # exit if not initialized
+        #var msg = string.format(
+        #          "Percent Full: %i",
+        #          self.tank_data)
+        #tasmota.web_send_decimal(msg)
     end
 
     # ---------------------
 
     def json_append()
         if !self.tank_data return nil end
-        import string
-        var msg = string.format(",\"Percent Full\":%.f",
+        var msg = string.format(",\"TankPerc\":%i",
                   self.tank_data)
         tasmota.response_append(msg)
     end
@@ -167,10 +167,10 @@ class ShroomerTank : Driver
     end
 
     def http_json_endpoint()
-        webserver.content_start("MyEndpointTitle")
-        webserver.content_send_style()
-        webserver.content_send ("{\"MySensor\":1234}")
-        webserver.content_stop()
+
+        # get sensordata and provide through http
+        var MysensorData = tasmota.read_sensors()
+        webserver.content_response(MysensorData)
     end
 
 end
