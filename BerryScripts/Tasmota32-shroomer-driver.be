@@ -13,6 +13,104 @@ import string
 
 class MyHttpManager
 
+    def inject_auotReloadScript()
+        var content = ("// Funktion, die die"
+        " Daten per AJAX abru"
+        "ft\r\n"
+        "        function fet"
+        "chData() {\r\n"
+        "            // Erste"
+        "lle eine neue XMLHtt"
+        "pRequest\r\n"
+        "            const xh"
+        "r = new XMLHttpReque"
+        "st();\r\n\r\n"
+        "            // Defin"
+        "iere, was passieren "
+        "soll, wenn die Anfra"
+        "ge erfolgreich ist\r"
+        "\n"
+        "            xhr.onre"
+        "adystatechange = () "
+        "=> {\r\n"
+        "                if ("
+        "xhr.readyState === 4"
+        " && xhr.status === 2"
+        "00) {\r\n"
+        "                    "
+        "// Verarbeite die An"
+        "twortdaten\r\n"
+        "                    "
+        "const data = JSON.pa"
+        "rse(xhr.responseText"
+        ");\r\n\r\n"
+        "                    "
+        "// Überprüfe, ob Tan"
+        "kPerc definiert ist "
+        "und aktualisiere den"
+        " Fortschrittsbalken"
+        "\r\n"
+        "                    "
+        "if (data.TankPerc !="
+        "= undefined) {\r\n"
+        "                    "
+        "    // Aktualisiere "
+        "den Inhalt des div-E"
+        "lements mit der ID p"
+        "rogress-bar\r\n"
+        "                    "
+        "    eb(\'progress-ba"
+        "r\').innerText = `${"
+        "data.TankPerc}%`;\r"
+        "\n"
+        "                    "
+        "    \r\n"
+        "                    "
+        "    // Aktualisiere "
+        "die Breite des Balke"
+        "ns basierend auf Tan"
+        "kPerc\r\n"
+        "                    "
+        "    eb(\'progress-ba"
+        "r\').style.width = `"
+        "${data.TankPerc}%`;"
+        "\r\n"
+        "                    "
+        "}\r\n"
+        "                }\r"
+        "\n"
+        "            };\r\n\r"
+        "\n"
+        "            // Öffne"
+        " die Anfrage (GET-Re"
+        "quest an den Endpoin"
+        "t)\r\n"
+        "            xhr.open"
+        "(\'GET\', \'/shr\', "
+        "true);\r\n\r\n"
+        "            // Sende"
+        " die Anfrage\r\n"
+        "            xhr.send"
+        "();\r\n"
+        "        }\r\n\r\n"
+        "        // Rufe fetc"
+        "hData alle 5 Sekunde"
+        "n auf (5000 Millisek"
+        "unden)\r\n"
+        "        setInterval("
+        "fetchData, 5000);\r"
+        "\n\r\n"
+        "        // Initialer"
+        " Aufruf der fetchDat"
+        "a-Funktion, damit ni"
+        "cht 5 Sekunden auf d"
+        "en ersten Aufruf gew"
+        "artet wird\r\n"
+        "        fetchData();")
+
+        webserver.content_send (content)
+    end
+
     def show_tank(tank_perc)
 
        var content = "    <div id=\"progre"
@@ -50,8 +148,8 @@ class MyHttpManager
         "                heig"
         "ht: 30px;\r\n"
         "                back"
-        "ground-color: #4caf5"
-        "0;\r\n"
+        "ground-color: #0071f"
+        "f;\r\n"
         "                text"
         "-align: center;\r\n"
         "                line"
@@ -66,7 +164,6 @@ class MyHttpManager
         "    </script>";
         webserver.content_send (content)
     end
-
 end
 
 class ShroomerTank : Driver
@@ -78,7 +175,7 @@ class ShroomerTank : Driver
     var tank_data
 
     def init()
-        self.buff_max = 120
+        self.buff_max = 60
         self.calibFull = 10
         self.calibEmpty = 30
         self.tank_data = 55
@@ -111,8 +208,16 @@ class ShroomerTank : Driver
         var perc = (self.calibEmpty - d) / (self.calibEmpty - self.calibFull) * 100
 
         #print(perc)
+        if (perc > 100)
+            perc = 100
+        end
+
+        if (perc < 0)
+            perc = 0
+        end
 
         self.tank_data = perc
+
         return self.tank_data
 
     end
@@ -155,7 +260,7 @@ class ShroomerTank : Driver
 
     def http_get()
         webserver.content_start('The Shroomer Web UI')
-        #MyHttpManager().set_reload();
+        MyHttpManager().inject_auotReloadScript()
         webserver.content_send_style()
         var tank_str = string.format("%i", self.tank_data)
         MyHttpManager().show_tank(tank_str)
@@ -179,4 +284,4 @@ shr_tank = ShroomerTank() # instanz erzeugen
 tasmota.add_driver(shr_tank) # tasmota treiber anlegen und sekündlich aufrufen
 shr_tank.web_add_handler()
 
-tasmota.remove_driver(shr_tank)
+#tasmota.remove_driver(shr_tank)
