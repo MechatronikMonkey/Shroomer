@@ -8,6 +8,65 @@
    
 #- *************************************** -#
 import webserver
+
+class MyHttpManager
+
+    def show_tank(tank_perc)
+
+       var content = "    <div id=\"progre"
+        "ss-container\">\r\n"
+        "        <div id=\"pr"
+        "ogress-bar\">"+ tank_perc +"%</di"
+        "v>\r\n"
+        "    </div>\r\n"
+        "    <script>\r\n"
+        "        // Styling z"
+        "ur Laufzeit hinzufüg"
+        "en\r\n"
+        "        const style "
+        "= document.createEle"
+        "ment(\'style\');\r\n"
+        "        style.textCo"
+        "ntent = `\r\n"
+        "            #progres"
+        "s-container {\r\n"
+        "                widt"
+        "h: 100%;\r\n"
+        "                back"
+        "ground-color: #f3f3f"
+        "3;\r\n"
+        "                bord"
+        "er-radius: 5px;\r\n"
+        "                over"
+        "flow: hidden;\r\n"
+        "            }\r\n\r"
+        "\n"
+        "            #progres"
+        "s-bar {\r\n"
+        "                widt"
+        "h: "+ tank_perc +"%;\r\n"
+        "                heig"
+        "ht: 30px;\r\n"
+        "                back"
+        "ground-color: #4caf5"
+        "0;\r\n"
+        "                text"
+        "-align: center;\r\n"
+        "                line"
+        "-height: 30px;\r\n"
+        "                colo"
+        "r: white;\r\n"
+        "            }\r\n"
+        "        `;\r\n"
+        "        document.hea"
+        "d.appendChild(style)"
+        ";\r\n\r\n"
+        "    </script>";
+        webserver.content_send (content)
+    end
+
+end
+
 class ShroomerTank : Driver
 
     static buffer = []
@@ -24,8 +83,6 @@ class ShroomerTank : Driver
     end
    
     def tank_do()
-
-        print (tasmota.read_sensors())
 
         # Read Sensor data
         import json
@@ -93,68 +150,27 @@ class ShroomerTank : Driver
     def web_add_handler()
         webserver.on('/shroomer', / -> self.http_get(), webserver.HTTP_GET)
         webserver.on('/shroomer', / -> self.http_post(), webserver.HTTP_POST)
+        webserver.on('/shr', / -> self.http_json_endpoint(), webserver.HTTP_GET)
     end
 
     def http_get()
-
-
-        webserver.content_start('Configure Heating')
+        webserver.content_start('The Shroomer Web UI')
+        #MyHttpManager().set_reload();
         webserver.content_send_style()
-        var MyContent = ("    <div id=\"progre"
-   "ss-container\">\r\n"
-   "        <div id=\"pr"
-   "ogress-bar\">45%</di"
-   "v>\r\n"
-   "    </div>\r\n"
-   "    <script>\r\n"
-   "        // Styling z"
-   "ur Laufzeit hinzufüg"
-   "en\r\n"
-   "        const style "
-   "= document.createEle"
-   "ment(\'style\');\r\n"
-   "        style.textCo"
-   "ntent = `\r\n"
-   "            #progres"
-   "s-container {\r\n"
-   "                widt"
-   "h: 100%;\r\n"
-   "                back"
-   "ground-color: #f3f3f"
-   "3;\r\n"
-   "                bord"
-   "er-radius: 5px;\r\n"
-   "                over"
-   "flow: hidden;\r\n"
-   "            }\r\n\r"
-   "\n"
-   "            #progres"
-   "s-bar {\r\n"
-   "                widt"
-   "h: 45%;\r\n"
-   "                heig"
-   "ht: 30px;\r\n"
-   "                back"
-   "ground-color: #4caf5"
-   "0;\r\n"
-   "                text"
-   "-align: center;\r\n"
-   "                line"
-   "-height: 30px;\r\n"
-   "                colo"
-   "r: white;\r\n"
-   "            }\r\n"
-   "        `;\r\n"
-   "        document.hea"
-   "d.appendChild(style)"
-   ";\r\n\r\n"
-   "    </script>");
-        webserver.content_send (MyContent)
+        var tank_str = str(self.tank_data)
+        MyHttpManager().show_tank(tank_str)
         webserver.content_stop()
     end
 
     def http_post()
         self.http_get()
+    end
+
+    def http_json_endpoint()
+        webserver.content_start("MyEndpointTitle")
+        webserver.content_send_style()
+        webserver.content_send ("{\"MySensor\":1234}")
+        webserver.content_stop()
     end
 
 end
