@@ -111,10 +111,10 @@ class MyHttpManager
         "                }\r"
         "\n\r\n"
         "                // Ü"
-        "berprüfe, ob fog_dat"
-        "a definiert ist und "
-        "aktualisiere den For"
-        "tschrittsbalken\r\n"
+        "berprüfe, ob heat_da"
+        "ta definiert ist und"
+        " aktualisiere den Fo"
+        "rtschrittsbalken\r\n"
         "                if ("
         "data.heat_data !== u"
         "ndefined) {\r\n"
@@ -134,6 +134,31 @@ class MyHttpManager
         "                }\r"
         "\n\r\n"
         "                // Ü"
+        "berprüfe, ob heater_"
+        "fan_data definiert i"
+        "st und aktualisiere "
+        "den Fortschrittsbalk"
+        "en\r\n"
+        "                if ("
+        "data.heat_fan_data !"
+        "== undefined) {\r\n"
+        "                    "
+        "// Aktualisiere den "
+        "Inhalt des div-Eleme"
+        "nts mit der ID progr"
+        "ess-bar\r\n"
+        "                    "
+        "eb(\'status-heater-f"
+        "an\').innerText = `$"
+        "{data.heat_fan_data}"
+        " %`;\r\n"
+        "                    "
+        "eb(\'heater-fan-bar"
+        "\').value = `${data."
+        "heat_fan_data}`;\r\n"
+        "                }\r"
+        "\n\r\n"
+        "                // Ü"
         "berprüfe, ob fan_dat"
         "a definiert ist und "
         "aktualisiere den For"
@@ -149,7 +174,11 @@ class MyHttpManager
         "                    "
         "eb(\'status-fan\').i"
         "nnerText = `${data.f"
-        "an_data}`;\r\n"
+        "an_data} %`;\r\n"
+        "                    "
+        "eb(\'fan-bar\').valu"
+        "e = `${data.fan_data"
+        "}`;\r\n"
         "                }\r"
         "\n\r\n"
         "            }\r\n"
@@ -233,7 +262,7 @@ class MyHttpManager
        "        </div>\r\n"
        "        <div id=\"pr"
        "ogress-container\" s"
-       "tyle=\"width: 100%; "
+       "tyle=\"width: 98%; "
        "background-color: #f"
        "3f3f3; border-radius"
        ": 5px; overflow: hid"
@@ -282,7 +311,7 @@ class MyHttpManager
         " -->\r\n"
         "    <div style=\"wid"
         "th: 45%; float: left"
-        "; margin-right: 5%; "
+        "; margin-right: 7%; "
         "margin-bottom: 20px;"
         "\">\r\n"
         "        <div style="
@@ -347,7 +376,7 @@ class MyHttpManager
         "e -->\r\n"
         "    <div style=\"wid"
         "th: 45%; float: left"
-        "; margin-right: 5%; "
+        "; margin-right: 7%; "
         "margin-bottom: 20px;"
         "\">\r\n"
         "        <div style="
@@ -361,22 +390,67 @@ class MyHttpManager
         "e=\"margin-top: 0; c"
         "olor: black;\">Heat<"
         "/h2>\r\n"
-        "            <div id="
-        "\"status-heat\" styl"
-        "e=\"font-size: 1.5em"
-        "; margin-bottom: 15p"
-        "x; color: black;\">3"
-        "3 %</div>\r\n"
-        "            <input o"
-        "ninput=\'sendArgumen"
-        "ts(\"send_heat=\" + "
-        "this.value);\' id=\""
-        "heat-bar\" type=\"ra"
-        "nge\" min=\"0\" max="
-        "\"100\" value=\"33\""
-        " style=\"width: calc"
-        "(100% - 40px); margi"
-        "n: 10px auto 0;\">\r"
+        "            <div sty"
+        "le=\"display: flex; "
+        "justify-content: spa"
+        "ce-between;\">\r\n"
+        "                <div"
+        " style=\"width: 48%;"
+        " text-align: center;"
+        "\">\r\n"
+        "                    "
+        "<h3 style=\"margin-t"
+        "op: 0px; color: blac"
+        "k; font-size: 1em;\""
+        ">Heater</h3>\r\n"
+        "                    "
+        "<div id=\"status-hea"
+        "t\" style=\"font-siz"
+        "e: 1.2em; margin-bot"
+        "tom: 5px; color: bla"
+        "ck;\">33 %</div>\r\n"
+        "                    "
+        "<input oninput=\'sen"
+        "dArguments(\"send_he"
+        "at=\" + this.value);"
+        "\' id=\"heat-bar\" t"
+        "ype=\"range\" min=\""
+        "0\" max=\"100\" valu"
+        "e=\"33\" style=\"wid"
+        "th: 100%; margin: 5p"
+        "x auto 0;\">\r\n"
+        "                </di"
+        "v>\r\n"
+        "                <div"
+        " style=\"width: 48%;"
+        " text-align: center;"
+        "\">\r\n"
+        "                    "
+        "<h3 style=\"margin-t"
+        "op: 0px; color: blac"
+        "k; font-size: 1em;\""
+        ">Heater FAN</h3>\r\n"
+        "                    "
+        "<div id=\"status-hea"
+        "ter-fan\" style=\"fo"
+        "nt-size: 1.2em; marg"
+        "in-bottom: 5px; colo"
+        "r: black;\">50 %</di"
+        "v>\r\n"
+        "                    "
+        "<input oninput=\'sen"
+        "dArguments(\"send_he"
+        "at_fan=\" + this.val"
+        "ue);\' id=\"heater-f"
+        "an-bar\" type=\"rang"
+        "e\" min=\"0\" max=\""
+        "100\" value=\"50\" s"
+        "tyle=\"width: 100%; "
+        "margin: 5px auto 0;"
+        "\">\r\n"
+        "                </di"
+        "v>\r\n"
+        "            </div>\r"
         "\n"
         "        </div>\r\n"
         "    </div>\r\n"
@@ -393,22 +467,25 @@ class MyHttpManager
         "gn: center;\">\r\n"
         "            <h2 styl"
         "e=\"margin-top: 0; c"
-        "olor: black;\">FAN E"
-        "xt.</h2>\r\n"
+        "olor: black;\">FAN</"
+        "h2>\r\n"
         "            <div id="
         "\"status-fan\" style"
         "=\"font-size: 1.5em;"
-        " margin-bottom: 15px"
-        "; color: black;\">ON"
-        "</div>\r\n"
-        "            <button "
-        "onclick=\'sendArgume"
-        "nts(\"toggle_fan=1\""
-        ");\' style=\"padding"
-        ": 10px 20px; font-si"
-        "ze: 1em; cursor: poi"
-        "nter;\">Toggle</butt"
-        "on>\r\n"
+        " margin-bottom: 20px"
+        "; color: black;\">33"
+        " %</div>\r\n"
+        "                <inp"
+        "ut oninput=\'sendArg"
+        "uments(\"send_fan=\""
+        " + this.value);\' id"
+        "=\"fan-bar\" type=\""
+        "range\" min=\"0\" ma"
+        "x=\"100\" value=\"33"
+        "\" style=\"width: ca"
+        "lc(100% - 40px); mar"
+        "gin-bottom: 40px; au"
+        "to 0;\">\r\n"
         "        </div>\r\n"
         "    </div>\r\n"
         "</div>")
@@ -426,6 +503,7 @@ class ShroomerTank : Driver
     var uv_data
     var fog_data
     var heat_data
+    var heat_fan_data
     var fan_data
     var MySensors
 
@@ -437,7 +515,8 @@ class ShroomerTank : Driver
         self.uv_data = "OFF"
         self.fog_data = "OFF"
         self.heat_data = 0
-        self.fan_data = "OFF"
+        self.heat_fan_data = 0
+        self.fan_data = 0
     end
    
     def read_my_sensors()
@@ -520,9 +599,15 @@ class ShroomerTank : Driver
                   self.heat_data)
         tasmota.response_append(msg)
 
+        #heat-fan-status anfügen
+        msg = string.format(",\"heat_fan_data\":%i",
+                  self.heat_fan_data)
+        tasmota.response_append(msg)
+        
         #fan-status anfügen
-        if !self.fan_data return nil end
-        tasmota.response_append(",\"fan_data\":\"" + self.fan_data + "\"")
+        msg = string.format(",\"fan_data\":%i",
+                  self.fan_data)
+        tasmota.response_append(msg)
     end
 
     # --------------------- 
@@ -549,6 +634,7 @@ class ShroomerTank : Driver
 
     def http_json_endpoint()
 
+        var myval
         # get sensordata and provide through http
         var MysensorData = tasmota.read_sensors()
 
@@ -580,9 +666,7 @@ class ShroomerTank : Driver
         end
 
         if argument == "send_heat"
-
-            var myval = int(webserver.arg(0))
-            
+            myval = int(webserver.arg(0))
             if myval > 100
                 myval = 100
             end
@@ -590,8 +674,31 @@ class ShroomerTank : Driver
             if myval < 0
                 myval = 0
             end
-
             self.heat_data = myval
+        end
+
+        if argument == "send_heat_fan"
+            myval = int(webserver.arg(0))
+            if myval > 100
+                myval = 100
+            end
+
+            if myval < 0
+                myval = 0
+            end
+            self.heat_fan_data = myval
+        end
+
+        if argument == "send_fan"
+            myval = int(webserver.arg(0))
+            if myval > 100
+                myval = 100
+            end
+
+            if myval < 0
+                myval = 0
+            end
+            self.fan_data = myval
         end
 
         webserver.content_response(MysensorData)

@@ -34,17 +34,25 @@
                     eb('status-fog').innerText = `${data.fog_data}`;
                 }
 
-                // Überprüfe, ob fog_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob heat_data definiert ist und aktualisiere den Fortschrittsbalken
                 if (data.heat_data !== undefined) {
                     // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
                     eb('status-heat').innerText = `${data.heat_data} %`;
                     eb('heat-bar').value = `${data.heat_data}`;
                 }
 
+                // Überprüfe, ob heater_fan_data definiert ist und aktualisiere den Fortschrittsbalken
+                if (data.heat_fan_data !== undefined) {
+                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    eb('status-heater-fan').innerText = `${data.heat_fan_data} %`;
+                    eb('heater-fan-bar').value = `${data.heat_fan_data}`;
+                }
+
                 // Überprüfe, ob fan_data definiert ist und aktualisiere den Fortschrittsbalken
                 if (data.fan_data !== undefined) {
                     // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
-                    eb('status-fan').innerText = `${data.fan_data}`;
+                    eb('status-fan').innerText = `${data.fan_data} %`;
+                    eb('fan-bar').value = `${data.fan_data}`;
                 }
 
             }
