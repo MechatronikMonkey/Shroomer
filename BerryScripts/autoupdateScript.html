@@ -41,6 +41,12 @@
                     eb('heat-bar').value = `${data.heat_data}`;
                 }
 
+                // Überprüfe, ob fan_data definiert ist und aktualisiere den Fortschrittsbalken
+                if (data.fan_data !== undefined) {
+                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    eb('status-fan').innerText = `${data.fan_data}`;
+                }
+
             }
         };
 

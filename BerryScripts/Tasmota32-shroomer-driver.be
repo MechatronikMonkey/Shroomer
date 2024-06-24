@@ -133,6 +133,25 @@ class MyHttpManager
         "ta}`;\r\n"
         "                }\r"
         "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob fan_dat"
+        "a definiert ist und "
+        "aktualisiere den For"
+        "tschrittsbalken\r\n"
+        "                if ("
+        "data.fan_data !== un"
+        "defined) {\r\n"
+        "                    "
+        "// Aktualisiere den "
+        "Inhalt des div-Eleme"
+        "nts mit der ID progr"
+        "ess-bar\r\n"
+        "                    "
+        "eb(\'status-fan\').i"
+        "nnerText = `${data.f"
+        "an_data}`;\r\n"
+        "                }\r"
+        "\n\r\n"
         "            }\r\n"
         "        };\r\n\r\n"
         "            // Öffne"
@@ -500,6 +519,10 @@ class ShroomerTank : Driver
         msg = string.format(",\"heat_data\":%i",
                   self.heat_data)
         tasmota.response_append(msg)
+
+        #fan-status anfügen
+        if !self.fan_data return nil end
+        tasmota.response_append(",\"fan_data\":\"" + self.fan_data + "\"")
     end
 
     # --------------------- 
