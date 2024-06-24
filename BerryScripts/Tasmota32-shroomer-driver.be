@@ -90,7 +90,49 @@ class MyHttpManager
         "nerText = `${data.uv"
         "_data}`;\r\n"
         "                }\r"
-        "\n"
+        "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob fog_dat"
+        "a definiert ist und "
+        "aktualisiere den For"
+        "tschrittsbalken\r\n"
+        "                if ("
+        "data.fog_data !== un"
+        "defined) {\r\n"
+        "                    "
+        "// Aktualisiere den "
+        "Inhalt des div-Eleme"
+        "nts mit der ID progr"
+        "ess-bar\r\n"
+        "                    "
+        "eb(\'status-fog\').i"
+        "nnerText = `${data.f"
+        "og_data}`;\r\n"
+        "                }\r"
+        "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob fog_dat"
+        "a definiert ist und "
+        "aktualisiere den For"
+        "tschrittsbalken\r\n"
+        "                if ("
+        "data.heat_data !== u"
+        "ndefined) {\r\n"
+        "                    "
+        "// Aktualisiere den "
+        "Inhalt des div-Eleme"
+        "nts mit der ID progr"
+        "ess-bar\r\n"
+        "                    "
+        "eb(\'status-heat\')."
+        "innerText = `${data."
+        "heat_data} %`;\r\n"
+        "                    "
+        "eb(\'heat-bar\').val"
+        "ue = `${data.heat_da"
+        "ta}`;\r\n"
+        "                }\r"
+        "\n\r\n"
         "            }\r\n"
         "        };\r\n\r\n"
         "            // Öffne"
@@ -308,15 +350,15 @@ class MyHttpManager
         "3 %</div>\r\n"
         "            <input o"
         "ninput=\'sendArgumen"
-        "ts(\"send_heat=1\");"
-        "\' id=\"heat-bar\" t"
-        "ype=\"range\" id=\"h"
-        "eat-slider\" min=\"0"
-        "\" max=\"100\" value"
-        "=\"33\" style=\"widt"
-        "h: calc(100% - 40px)"
-        "; margin: 10px auto "
-        "0;\">\r\n"
+        "ts(\"send_heat=\" + "
+        "this.value);\' id=\""
+        "heat-bar\" type=\"ra"
+        "nge\" min=\"0\" max="
+        "\"100\" value=\"33\""
+        " style=\"width: calc"
+        "(100% - 40px); margi"
+        "n: 10px auto 0;\">\r"
+        "\n"
         "        </div>\r\n"
         "    </div>\r\n"
         "    <div style=\"wid"
@@ -449,6 +491,15 @@ class ShroomerTank : Driver
         #uv-status anfügen
         if !self.uv_data return nil end
         tasmota.response_append(",\"uv_data\":\"" + self.uv_data + "\"")
+
+        #fog-status anfügen
+        if !self.fog_data return nil end
+        tasmota.response_append(",\"fog_data\":\"" + self.fog_data + "\"")
+
+        #heat-status anfügen
+        msg = string.format(",\"heat_data\":%i",
+                  self.heat_data)
+        tasmota.response_append(msg)
     end
 
     # --------------------- 
@@ -503,6 +554,21 @@ class ShroomerTank : Driver
             else
                 self.fan_data = "OFF"
             end
+        end
+
+        if argument == "send_heat"
+
+            var myval = int(webserver.arg(0))
+            
+            if myval > 100
+                myval = 100
+            end
+
+            if myval < 0
+                myval = 0
+            end
+
+            self.heat_data = myval
         end
 
         webserver.content_response(MysensorData)

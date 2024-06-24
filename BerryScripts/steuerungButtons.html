@@ -34,7 +34,7 @@
         <div style="border-radius: 10px; border: 2px solid #dc3545; background-color: #ffffff; padding: 20px; text-align: center;">
             <h2 style="margin-top: 0; color: black;">Heat</h2>
             <div id="status-heat" style="font-size: 1.5em; margin-bottom: 15px; color: black;">33 %</div>
-            <input oninput='sendArguments("send_heat=1");' id="heat-bar" type="range" id="heat-slider" min="0" max="100" value="33" style="width: calc(100% - 40px); margin: 10px auto 0;">
+            <input oninput='sendArguments("send_heat=" + this.value);' id="heat-bar" type="range" min="0" max="100" value="33" style="width: calc(100% - 40px); margin: 10px auto 0;">
         </div>
     </div>
     <div style="width: 45%; float: left; margin-bottom: 20px;">
