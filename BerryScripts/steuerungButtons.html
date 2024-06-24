@@ -18,14 +18,14 @@
         <div style="border-radius: 10px; border: 2px solid #6f42c1; background-color: #ffffff; padding: 20px; text-align: center;">
             <h2 style="margin-top: 0; color: black;">UV</h2>
             <div id="status-uv" style="font-size: 1.5em; margin-bottom: 15px; color: black;">ON</div>
-            <button onclick='sendArguments(\"&toggle_uv=1\");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
+            <button onclick='sendArguments("toggle_uv=1");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
         </div>
     </div>
     <div style="width: 45%; float: left; margin-bottom: 20px;">
         <div style="border-radius: 10px; border: 2px solid #007bff; background-color: #ffffff; padding: 20px; text-align: center;">
             <h2 style="margin-top: 0; color: black;">Fog</h2>
             <div id="status-fog" style="font-size: 1.5em; margin-bottom: 15px; color: black;">ON</div>
-            <button onclick='sendArguments(\"&m_toggle_fog=1\");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
+            <button onclick='sendArguments("toggle_fog=1");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
         </div>
     </div>
 
@@ -34,14 +34,14 @@
         <div style="border-radius: 10px; border: 2px solid #dc3545; background-color: #ffffff; padding: 20px; text-align: center;">
             <h2 style="margin-top: 0; color: black;">Heat</h2>
             <div id="status-heat" style="font-size: 1.5em; margin-bottom: 15px; color: black;">33 %</div>
-            <input oninput='sendArguments(\"&m_set_heat=1\");' id="heat-bar" type="range" id="heat-slider" min="0" max="100" value="33" style="width: calc(100% - 40px); margin: 10px auto 0;">
+            <input oninput='sendArguments("send_heat=1");' id="heat-bar" type="range" id="heat-slider" min="0" max="100" value="33" style="width: calc(100% - 40px); margin: 10px auto 0;">
         </div>
     </div>
     <div style="width: 45%; float: left; margin-bottom: 20px;">
         <div style="border-radius: 10px; border: 2px solid #28a745; background-color: #ffffff; padding: 20px; text-align: center;">
             <h2 style="margin-top: 0; color: black;">FAN Ext.</h2>
             <div id="status-fan" style="font-size: 1.5em; margin-bottom: 15px; color: black;">ON</div>
-            <button onclick='sendArguments(\"&m_toggle_fan=1\");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
+            <button onclick='sendArguments("toggle_fan=1");' style="padding: 10px 20px; font-size: 1em; cursor: pointer;">Toggle</button>
         </div>
     </div>
 </div>

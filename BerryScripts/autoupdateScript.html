@@ -5,40 +5,59 @@
     // Funktion, die die Daten per AJAX abruft
     function fetchData() {
                 // Erstelle eine neue XMLHttpRequest
-                const xhr = new XMLHttpRequest();
+        const xhr = new XMLHttpRequest();
 
-                // Definiere, was passieren soll, wenn die Anfrage erfolgreich ist
-                xhr.onreadystatechange = ()=>{
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // Verarbeite die Antwortdaten
-                        const data = JSON.parse(xhr.responseText);
+        // Definiere, was passieren soll, wenn die Anfrage erfolgreich ist
+        xhr.onreadystatechange = ()=>{
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Verarbeite die Antwortdaten
+                const data = JSON.parse(xhr.responseText);
 
-                        // Überprüfe, ob TankPerc definiert ist und aktualisiere den Fortschrittsbalken
-                        if (data.TankPerc !== undefined) {
-                            // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
-                            eb('progress-bar').innerText = `${data.TankPerc}%`;
+                // Überprüfe, ob TankPerc definiert ist und aktualisiere den Fortschrittsbalken
+                if (data.TankPerc !== undefined) {
+                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    eb('progress-bar').innerText = `${data.TankPerc}%`;
 
-                            // Aktualisiere die Breite des Balkens basierend auf TankPerc
-                            eb('progress-bar').style.width = `${data.TankPerc}%`;
-                        }
-                    }
+                    // Aktualisiere die Breite des Balkens basierend auf TankPerc
+                    eb('progress-bar').style.width = `${data.TankPerc}%`;
                 }
-                ;
 
-                // Öffne die Anfrage (GET-Request an den Endpoint)
-                xhr.open('GET', '/shr', true);
-
-                // Sende die Anfrage
-                xhr.send();
+                // Überprüfe, ob uv_data definiert ist und aktualisiere den Fortschrittsbalken
+                if (data.uv_data !== undefined) {
+                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    eb('status-uv').innerText = `${data.uv_data}`;
+                }
             }
+        };
 
-            // Rufe fetchData alle 5 Sekunden auf (5000 Millisekunden)
-            setInterval(fetchData, 5000);
+            // Öffne die Anfrage (GET-Request an den Endpoint)
+        xhr.open('GET', '/shr', true);
 
-            // Initialer Aufruf der fetchData-Funktion, damit nicht 5 Sekunden auf den ersten Aufruf gewartet wird
-            fetchData();
+            // Sende die Anfrage
+        xhr.send();
+    }
+        
+    function sendArguments(args){
 
-            // hier der rest vom Tasmota script
-            // um es an der richtingen stelle zu injezieren, muss es nach webserver.content_start() aufgterufen werden im Berry script.
-            // siehe Quelltext im shroomer-driver^^^^       
+        if (args != null && typeof args == "string")
+        {
+            const xhr = new XMLHttpRequest();
+
+            // Öffne die Anfrage (GET-Request an den Endpoint)
+            xhr.open('GET', '/shr?'+args, true);
+
+            // Sende die Anfrage
+            xhr.send();
+        }
+    }   
+
+    // Rufe fetchData alle 5 Sekunden auf (5000 Millisekunden)
+    setInterval(fetchData, 5000);
+
+    // Initialer Aufruf der fetchData-Funktion, damit nicht 5 Sekunden auf den ersten Aufruf gewartet wird
+    fetchData();
+
+    // hier der rest vom Tasmota script
+    // um es an der richtingen stelle zu injezieren, muss es nach webserver.content_start() aufgterufen werden im Berry script.
+    // siehe Quelltext im shroomer-driver    
 </script>
