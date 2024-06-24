@@ -158,6 +158,164 @@ class MyHttpManager
        "    </div>")
         webserver.content_send (content)
     end
+
+    def showManualPanel()
+
+        var content = ("<div style=\"width: "
+        "100%; margin-bottom:"
+        " 20px; background-co"
+        "lor: #e0e0e0; paddin"
+        "g: 20px; border-radi"
+        "us: 10px; overflow: "
+        "hidden;\">\r\n"
+        "    <!-- Äußerster C"
+        "ontainer mit Übersch"
+        "rift -->\r\n"
+        "    <div style=\"pad"
+        "ding: 10px; backgrou"
+        "nd-color: #e0e0e0; f"
+        "ont-weight: bold; co"
+        "lor: black; margin-b"
+        "ottom: 20px;\">\r\n"
+        "        Manual contr"
+        "ol\r\n"
+        "    </div>\r\n\r\n"
+        "    <!-- Obere Reihe"
+        " -->\r\n"
+        "    <div style=\"wid"
+        "th: 45%; float: left"
+        "; margin-right: 5%; "
+        "margin-bottom: 20px;"
+        "\">\r\n"
+        "        <div style="
+        "\"border-radius: 10p"
+        "x; border: 2px solid"
+        " #6f42c1; background"
+        "-color: #ffffff; pad"
+        "ding: 20px; text-ali"
+        "gn: center;\">\r\n"
+        "            <h2 styl"
+        "e=\"margin-top: 0; c"
+        "olor: black;\">UV</h"
+        "2>\r\n"
+        "            <div id="
+        "\"status-uv\" style="
+        "\"font-size: 1.5em; "
+        "margin-bottom: 15px;"
+        " color: black;\">ON<"
+        "/div>\r\n"
+        "            <button "
+        "onclick=\'la(\\\"&m_"
+        "toggle_uv=1\\\");\' "
+        "style=\"padding: 10p"
+        "x 20px; font-size: 1"
+        "em; cursor: pointer;"
+        "\">Toggle</button>\r"
+        "\n"
+        "        </div>\r\n"
+        "    </div>\r\n"
+        "    <div style=\"wid"
+        "th: 45%; float: left"
+        "; margin-bottom: 20p"
+        "x;\">\r\n"
+        "        <div style="
+        "\"border-radius: 10p"
+        "x; border: 2px solid"
+        " #007bff; background"
+        "-color: #ffffff; pad"
+        "ding: 20px; text-ali"
+        "gn: center;\">\r\n"
+        "            <h2 styl"
+        "e=\"margin-top: 0; c"
+        "olor: black;\">Fog</"
+        "h2>\r\n"
+        "            <div id="
+        "\"status-fog\" style"
+        "=\"font-size: 1.5em;"
+        " margin-bottom: 15px"
+        "; color: black;\">ON"
+        "</div>\r\n"
+        "            <button "
+        "onclick=\'la(\\\"&m_"
+        "toggle_fog=1\\\");\'"
+        " style=\"padding: 10"
+        "px 20px; font-size: "
+        "1em; cursor: pointer"
+        ";\">Toggle</button>"
+        "\r\n"
+        "        </div>\r\n"
+        "    </div>\r\n\r\n"
+        "    <!-- Untere Reih"
+        "e -->\r\n"
+        "    <div style=\"wid"
+        "th: 45%; float: left"
+        "; margin-right: 5%; "
+        "margin-bottom: 20px;"
+        "\">\r\n"
+        "        <div style="
+        "\"border-radius: 10p"
+        "x; border: 2px solid"
+        " #dc3545; background"
+        "-color: #ffffff; pad"
+        "ding: 20px; text-ali"
+        "gn: center;\">\r\n"
+        "            <h2 styl"
+        "e=\"margin-top: 0; c"
+        "olor: black;\">Heat<"
+        "/h2>\r\n"
+        "            <div id="
+        "\"status-heat\" styl"
+        "e=\"font-size: 1.5em"
+        "; margin-bottom: 15p"
+        "x; color: black;\">3"
+        "3 %</div>\r\n"
+        "            <input o"
+        "ninput=\'la(\\\"&m_s"
+        "et_heat=1\\\");\' id"
+        "=\"heat-bar\" type="
+        "\"range\" id=\"heat-"
+        "slider\" min=\"0\" m"
+        "ax=\"100\" value=\"3"
+        "3\" style=\"width: c"
+        "alc(100% - 40px); ma"
+        "rgin: 10px auto 0;\""
+        ">\r\n"
+        "        </div>\r\n"
+        "    </div>\r\n"
+        "    <div style=\"wid"
+        "th: 45%; float: left"
+        "; margin-bottom: 20p"
+        "x;\">\r\n"
+        "        <div style="
+        "\"border-radius: 10p"
+        "x; border: 2px solid"
+        " #28a745; background"
+        "-color: #ffffff; pad"
+        "ding: 20px; text-ali"
+        "gn: center;\">\r\n"
+        "            <h2 styl"
+        "e=\"margin-top: 0; c"
+        "olor: black;\">FAN E"
+        "xt.</h2>\r\n"
+        "            <div id="
+        "\"status-fan\" style"
+        "=\"font-size: 1.5em;"
+        " margin-bottom: 15px"
+        "; color: black;\">ON"
+        "</div>\r\n"
+        "            <button "
+        "onclick=\'la(\\\"&m_"
+        "toggle_fan=1\\\");\'"
+        " style=\"padding: 10"
+        "px 20px; font-size: "
+        "1em; cursor: pointer"
+        ";\">Toggle</button>"
+        "\r\n"
+        "        </div>\r\n"
+        "    </div>\r\n"
+        "</div>")
+        webserver.content_send (content)
+    end
 end
 
 class ShroomerTank : Driver
@@ -167,20 +325,28 @@ class ShroomerTank : Driver
     var calibFull
     var calibEmpty
     var tank_data
+    var uv_data
+    var fog_data
+    var heat_data
+    var fan_data
+    var MySensors
 
     def init()
         self.buff_max = 60
         self.calibFull = 10
         self.calibEmpty = 30
         self.tank_data = 55
+        self.uv_data = 0
     end
    
+    def read_my_sensors()
+        self.MySensors = json.load(tasmota.read_sensors())
+    end
     def tank_do()
 
-        # Read Sensor data
-        var MySensors = json.load(tasmota.read_sensors())
-        if !(MySensors.contains('VL53L0X')) return end
-        var d = MySensors['VL53L0X']['Distance']
+        # Read Sensor data needs to be executed before this line!
+        if !(self.MySensors.contains('VL53L0X')) return end
+        var d = self.MySensors['VL53L0X']['Distance']
         if (d == nil) return 0 end                      #check for null value (too far away)
         
         #print("Dist: ", d)
@@ -220,6 +386,7 @@ class ShroomerTank : Driver
 
     def every_second()
         if !self.tank_do return nil end
+        self.read_my_sensors()
         self.tank_do()
         #print (self.tank_data)
     end
@@ -228,11 +395,6 @@ class ShroomerTank : Driver
 
     def web_sensor()
 
-        #if !self.tank_data return nil end               # exit if not initialized
-        #var msg = string.format(
-        #          "Percent Full: %i",
-        #          self.tank_data)
-        #tasmota.web_send_decimal(msg)
     end
 
     # ---------------------
@@ -256,6 +418,7 @@ class ShroomerTank : Driver
         webserver.content_start('The Shroomer Web UI')
         MyHttpManager().inject_auotReloadScript()
         webserver.content_send_style()
+        MyHttpManager().showManualPanel()
         var tank_str = string.format("%i", self.tank_data)
         MyHttpManager().show_tank(tank_str)
         webserver.content_stop()
@@ -269,7 +432,16 @@ class ShroomerTank : Driver
 
         # get sensordata and provide through http
         var MysensorData = tasmota.read_sensors()
-        webserver.content_response(MysensorData)
+
+        var argument = webserver.arg_name(0)
+        var uv = string.format("%i", self.uv_data)
+
+        if argument == "toggle_uv"
+            self.uv_data = 1
+        end
+
+        webserver.content_response(MysensorData + argument + uv)
+
     end
 
 end
