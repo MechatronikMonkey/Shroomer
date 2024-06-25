@@ -13,6 +13,9 @@ import string
 
 class MyHttpManager
 
+    def injectStylesForSlider()
+
+    end
     def inject_auotReloadScript()
         var content = ("// Funktion, die die"
         " Daten per AJAX abru"
@@ -505,6 +508,10 @@ class ShroomerTank : Driver
     var heat_data
     var heat_fan_data
     var fan_data
+    var heat_setpoint
+    var heat_auto_on
+    var hum_setpoint
+    var hum_auto_on
     var MySensors
 
     def init()
@@ -517,6 +524,10 @@ class ShroomerTank : Driver
         self.heat_data = 0
         self.heat_fan_data = 0
         self.fan_data = 0
+        self.heat_setpoint = 24
+        self.heat_auto_on = 0
+        self.hum_setpoint = 65
+        self.hum_auto_on = 0
     end
    
     def read_my_sensors()
@@ -608,6 +619,27 @@ class ShroomerTank : Driver
         msg = string.format(",\"fan_data\":%i",
                   self.fan_data)
         tasmota.response_append(msg)
+
+        #heat-setpoint anfügen
+        msg = string.format(",\"heat_setpoint\":%i",
+                  self.heat_setpoint)
+        tasmota.response_append(msg)
+
+        #heat-auto-on anfügen
+        msg = string.format(",\"heat_auto_on\":%i",
+                  self.heat_auto_on)
+        tasmota.response_append(msg)
+
+        #hum-setpoint anfügen
+        msg = string.format(",\"hum_setpoint\":%i",
+                  self.hum_setpoint)
+        tasmota.response_append(msg)
+
+        #hum-auto-on anfügen
+        msg = string.format(",\"hum_auto_on\":%i",
+                  self.hum_auto_on)
+        tasmota.response_append(msg)
+        
     end
 
     # --------------------- 
@@ -699,6 +731,54 @@ class ShroomerTank : Driver
                 myval = 0
             end
             self.fan_data = myval
+        end
+
+        if argument == "set_heat_point"
+            myval = int(webserver.arg(0))
+            if myval > 35
+                myval = 35
+            end
+
+            if myval < 20
+                myval = 20
+            end
+            self.heat_setpoint = myval
+        end
+
+        if argument == "toggle_heat_auto"
+            myval = int(webserver.arg(0))
+            if myval > 1
+                myval = 1
+            end
+
+            if myval < 0
+                myval = 0
+            end
+            self.heat_auto_on = myval
+        end
+
+        if argument == "set_hum_point"
+            myval = int(webserver.arg(0))
+            if myval > 35
+                myval = 35
+            end
+
+            if myval < 20
+                myval = 20
+            end
+            self.hum_setpoint = myval
+        end
+
+        if argument == "toggle_hum_auto"
+            myval = int(webserver.arg(0))
+            if myval > 1
+                myval = 1
+            end
+
+            if myval < 0
+                myval = 0
+            end
+            self.hum_auto_on = myval
         end
 
         webserver.content_response(MysensorData)

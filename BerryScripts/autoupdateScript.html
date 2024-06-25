@@ -22,37 +22,61 @@
                     eb('progress-bar').style.width = `${data.TankPerc}%`;
                 }
 
-                // Überprüfe, ob uv_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob uv_data definiert ist und aktualisiere
                 if (data.uv_data !== undefined) {
-                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    
                     eb('status-uv').innerText = `${data.uv_data}`;
                 }
 
-                // Überprüfe, ob fog_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob fog_data definiert ist und aktualisiere
                 if (data.fog_data !== undefined) {
-                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    
                     eb('status-fog').innerText = `${data.fog_data}`;
                 }
 
-                // Überprüfe, ob heat_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob heat_data definiert ist und aktualisiere 
                 if (data.heat_data !== undefined) {
-                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    
                     eb('status-heat').innerText = `${data.heat_data} %`;
                     eb('heat-bar').value = `${data.heat_data}`;
                 }
 
-                // Überprüfe, ob heater_fan_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob heater_fan_data definiert ist und aktualisiere 
                 if (data.heat_fan_data !== undefined) {
-                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    
                     eb('status-heater-fan').innerText = `${data.heat_fan_data} %`;
                     eb('heater-fan-bar').value = `${data.heat_fan_data}`;
                 }
 
-                // Überprüfe, ob fan_data definiert ist und aktualisiere den Fortschrittsbalken
+                // Überprüfe, ob fan_data definiert ist und aktualisiere 
                 if (data.fan_data !== undefined) {
-                    // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
+                    
                     eb('status-fan').innerText = `${data.fan_data} %`;
                     eb('fan-bar').value = `${data.fan_data}`;
+                }
+
+                // Überprüfe, ob heat_setpoint definiert ist und aktualisiere 
+                if (data.heat_setpoint !== undefined) {
+                    
+                    eb('setpoint-heat').innerText = `${data.heat_setpoint}°C`;
+                    eb('setpoint-dropdown-heat').value = `${data.heat_setpoint}`;
+                }
+
+                // Überprüfe, ob heat_auto_on definiert ist und aktualisiere 
+                if (data.heat_auto_on !== undefined) {
+                    eb('heat-auto-on').checked = ${data.heat_auto_on};
+                }
+
+                // Überprüfe, ob hum_setpoint definiert ist und aktualisiere 
+                if (data.hum_setpoint !== undefined) {
+                    
+                    eb('setpoint-hum').innerText = `${data.hum_setpoint} %`;
+                    eb('setpoint-dropdown-hum').value = `${data.hum_setpoint}`;
+                }
+
+                // Überprüfe, ob heat_auto_on definiert ist und aktualisiere 
+                if (data.hum_auto_on !== undefined) {
+                    eb('hum-auto-on').checked = ${data.hum_auto_on};
                 }
 
             }
