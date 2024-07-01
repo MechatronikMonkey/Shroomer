@@ -15,11 +15,11 @@
     </div>
 
     <!-- Linker Kasten -->
-    <div style="width: 45%; float: left; margin-right: 7%; margin-bottom: 20px;">
-        <div style="border-radius: 10px; border: 2px solid #dc3545; background-color: #ffffff; padding: 20px; text-align: center; box-shadow: 0 				4px 8px rgba(0, 0, 0, 0.1);">
+    <div style="width: 45%; float: left; margin-right: 7%; margin-bottom: 20px; min-width: 360px;">
+        <div style="border-radius: 10px; border: 2px solid #dc3545; background-color: #ffffff; padding: 20px; text-align: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
             <div class="slider-container">
               <label class="switch">
-                    <input id="heat-auto-on" type="checkbox" onchange='sendArguments("toggle_heat_auto=" + this.checked);'>
+                    <input id="heat-auto-on" type="checkbox" onchange='sendArguments("toggle_heat_auto=1");'>
                     <span class="slider"></span>
                 </label>
             </div>
@@ -28,9 +28,9 @@
                 <div style="margin-bottom: 40px;">Current temperature: <span id="current-temperature" style="position: relative; top: 3px; left: 7px; font-weight: bold; font-size: 1.5em;">25°C</span></div>
                 <div>Current setpoint: <span id="setpoint-heat">25°C</span></div>
             </div>
-            <div style="margin-bottom: 15px; margin-top: 20px;">
-                <label for="setpoint-dropdown" style="font-size: 1.2em; color: black;">Setpoint:</label>
-                <select id="setpoint-dropdown-heat" onchange='sendArguments("set_heat_point=" + this.value);' style="font-size: 1em; padding: 5px; 							border-radius: 5px;">
+            <div style="margin-bottom: 15px; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                <div id="setpoint-dropdown" style="font-size: 1.2em; color: black;">Setpoint:</div>
+                <select id="setpoint-dropdown-heat" onchange='sendArguments("set_heat_point=" + this.value);' style="width: 75px; font-size: 1em; padding: 5px; border-radius: 5px;">
                     <option value="20">20°C</option>
                     <option value="21">21°C</option>
                     <option value="22">22°C</option>
@@ -53,11 +53,11 @@
     </div>
 
     <!-- Rechter Kasten -->
-    <div style="width: 45%; float: left; margin-bottom: 20px;">
-        <div style="border-radius: 10px; border: 2px solid #007bff; background-color: #ffffff; padding: 20px; text-align: center; box-shadow: 0 				4px 8px rgba(0, 0, 0, 0.1);">
+    <div style="width: 45%; float: left; margin-bottom: 20px; min-width: 360px;">
+        <div style="border-radius: 10px; border: 2px solid #007bff; background-color: #ffffff; padding: 20px; text-align: center; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
             <div class="slider-container">
               <label class="switch">
-                    <input id="hum-auto-on" type="checkbox" onchange='sendArguments("toggle_hum_auto=" + this.checked);'>
+                    <input id="hum-auto-on" type="checkbox" onchange='sendArguments("toggle_hum_auto=1");'>
                     <span class="slider"></span>
                 </label>
             </div>
@@ -66,23 +66,23 @@
                 <div style="margin-bottom: 40px;">Current RH: <span id="current-hum" style="position: relative; top: 3px; left: 7px; font-weight: bold; font-size: 1.5em;">55 %</span></div>
                 <div>Current setpoint: <span id="setpoint-hum">55 %</span></div>
             </div>
-            <div style="margin-bottom: 15px; margin-top: 20px;">
-                <label for="setpoint-dropdown" style="font-size: 1.2em; color: black;">Setpoint:</label>
-                <select id="setpoint-dropdown-hum" onchange='sendArguments("set_hum_point=" + this.value);' style="font-size: 1em; padding: 5px; 							border-radius: 5px;">
-                    <option value="20">85 %</option>
-                    <option value="21">86 %</option>
-                    <option value="22">87 %</option>
-                    <option value="23">88 %</option>
-                    <option value="24">89 %</option>
-                    <option value="25">90 %</option>
-                    <option value="26">91 %</option>
-                    <option value="27">92 %</option>
-                    <option value="28">93 %</option>
-                    <option value="29">94 %</option>
-                    <option value="30">95 %</option>
-                    <option value="30">96 %</option>
-                    <option value="30">97 %</option>
-                    <option value="30">98 %</option>
+            <div style="margin-bottom: 15px; margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                <div id="setpoint-dropdown" style="font-size: 1.2em; color: black;">Setpoint:</div>
+                <select id="setpoint-dropdown-hum" onchange='sendArguments("set_hum_point=" + this.value);' style="width: 75px; font-size: 1em; padding: 5px; border-radius: 5px;">
+                    <option value="85">85 %</option>
+                    <option value="86">86 %</option>
+                    <option value="87">87 %</option>
+                    <option value="88">88 %</option>
+                    <option value="89">89 %</option>
+                    <option value="90">90 %</option>
+                    <option value="91">91 %</option>
+                    <option value="91">92 %</option>
+                    <option value="93">93 %</option>
+                    <option value="94">94 %</option>
+                    <option value="95">95 %</option>
+                    <option value="96">96 %</option>
+                    <option value="97">97 %</option>
+                    <option value="98">98 %</option>
                 </select>
             </div>
         </div>
@@ -116,8 +116,8 @@
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0;
-            left: 0;
+            top: -10px;
+            left: -10px;
             width: 60px;
             height: 34px;
             background-color: #ccc;
