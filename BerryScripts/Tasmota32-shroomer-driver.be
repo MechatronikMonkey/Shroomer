@@ -294,7 +294,7 @@ class MyHttpManager
         "<option value=\"91\""
         ">91 %</option>\r\n"
         "                    "
-        "<option value=\"91\""
+        "<option value=\"92\""
         ">92 %</option>\r\n"
         "                    "
         "<option value=\"93\""
