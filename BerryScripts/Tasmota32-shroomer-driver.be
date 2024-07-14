@@ -426,8 +426,7 @@ class MyHttpManager
     end
 
     def inject_auotReloadScript()
-        var content = ("\r\n"
-        "    // Funktion, die"
+        var content = ("    // Funktion, die"
         " die Daten per AJAX "
         "abruft\r\n"
         "    function fetchDa"
@@ -651,31 +650,18 @@ class MyHttpManager
         " und aktualisiere \r"
         "\n"
         "                if ("
-        "data.MHZ19B.Temperat"
-        "ure !== undefined &&"
-        " data.AHT2X.Temperat"
-        "ure !== undefined) {"
-        "\r\n\r\n"
+        "data.temp_calc !== u"
+        "ndefined ) {\r\n\r\n"
         "                    "
-        "const temp = (data.M"
-        "HZ19B.Temperature + "
-        "data.AHT2X.Temperatu"
-        "re) / 2;\r\n\r\n"
-        "                    "
-        "if (temp > 0 && temp"
-        " < 100)\r\n"
-        "                    "
-        "{\r\n"
-        "                    "
-        "   eb(\'current-temp"
-        "erature\').innerText"
-        " = `${temp} °C`; \r"
-        "\n"
-        "                    "
-        "}\r\n"
+        "eb(\'current-tempera"
+        "ture\').innerText = "
+        "`${data.temp_calc} °"
+        "C`; \r\n"
+        "                \r\n"
         "                }\r"
         "\n"
-        "                \r\n"
+        "                    "
+        "            \r\n"
         "                // Ü"
         "berprüfe, ob RH defi"
         "niert ist und aktual"
@@ -685,10 +671,10 @@ class MyHttpManager
         "!== undefined) {\r\n"
         "\r\n"
         "                    "
-        "eb(\'current-tempera"
-        "ture\').innerText = "
-        "`${data.AHT2X.Humidi"
-        "ty} %`; \r\n"
+        "eb(\'current-hum\')."
+        "innerText = `${data."
+        "AHT2X.Humidity} %`; "
+        "\r\n"
         "                }\r"
         "\n"
         "            }\r\n"
@@ -742,7 +728,7 @@ class MyHttpManager
         "5 Sekunden auf den e"
         "rsten Aufruf gewarte"
         "t wird\r\n"
-        "    fetchData();\r\n")
+        "    fetchData();")
 
         webserver.content_send (content)
     end
@@ -1025,6 +1011,7 @@ class ShroomerTank : Driver
     var hum_setpoint
     var hum_auto_on
     var MySensors
+    var temp_calc
 
     def init()
         self.buff_max = 60
@@ -1040,11 +1027,24 @@ class ShroomerTank : Driver
         self.heat_auto_on = 0
         self.hum_setpoint = 85
         self.hum_auto_on = 0
+        self.temp_calc = 0
     end
    
     def read_my_sensors()
         self.MySensors = json.load(tasmota.read_sensors())
+
+        # Calc Temperature
+        if !(self.MySensors.contains('MHZ19B')) return end
+        var d = self.MySensors['MHZ19B']['Temperature']
+        if (d == nil) return 0 end                      #check for null value (too far away)
+
+        if !(self.MySensors.contains('AHT2X')) return end
+        d += self.MySensors['AHT2X']['Temperature']
+        if (d == nil) return 0 end                      #check for null value (too far away)
+
+        self.temp_calc = d / 2
     end
+
     def tank_do()
 
         # Read Sensor data needs to be executed before this line!
@@ -1186,6 +1186,11 @@ class ShroomerTank : Driver
         msg = string.format(",\"hum_auto_on\":%i",
                   self.hum_auto_on)
         tasmota.response_append(msg)
+
+        #temp_calc anfügen
+        msg = string.format(",\"temp_calc\":%.2f",
+        self.temp_calc)
+      tasmota.response_append(msg)
         
     end
 

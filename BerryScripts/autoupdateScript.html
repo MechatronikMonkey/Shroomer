@@ -82,20 +82,16 @@
                 }
 
                 // Überprüfe, ob Temperaturen definiert sind und aktualisiere 
-                if (data.MHZ19B.Temperature !== undefined && data.AHT2X.Temperature !== undefined) {
+                if (data.temp_calc !== undefined ) {
 
-                    const temp = (data.MHZ19B.Temperature + data.AHT2X.Temperature) / 2;
-
-                    if (temp > 0 && temp < 100)
-                    {
-                       eb('current-temperature').innerText = `${temp} °C`; 
-                    }
-                }
+                    eb('current-temperature').innerText = `${data.temp_calc} °C`; 
                 
+                }
+                                
                 // Überprüfe, ob RH definiert ist und aktualisiere 
                 if (data.AHT2X.Humidity !== undefined) {
 
-                    eb('current-temperature').innerText = `${data.AHT2X.Humidity} %`; 
+                    eb('current-hum').innerText = `${data.AHT2X.Humidity} %`; 
                 }
             }
         };
