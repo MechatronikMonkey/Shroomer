@@ -18,10 +18,10 @@
                 // Überprüfe, ob TankPerc definiert ist und aktualisiere den Fortschrittsbalken
                 if (data.TankPerc !== undefined) {
                     // Aktualisiere den Inhalt des div-Elements mit der ID progress-bar
-                    eb('progress-bar').innerText = `${data.TankPerc}%`;
+                    eb('progress-bar').innerText = `${data.TankPerc} %`;
 
                     // Aktualisiere die Breite des Balkens basierend auf TankPerc
-                    eb('progress-bar').style.width = `${data.TankPerc}%`;
+                    eb('progress-bar').style.width = `${data.TankPerc} %`;
                 }
 
                 // Überprüfe, ob uv_data definiert ist und aktualisiere
@@ -60,7 +60,7 @@
                 // Überprüfe, ob heat_setpoint definiert ist und aktualisiere 
                 if (data.heat_setpoint !== undefined) {
                     
-                    eb('setpoint-heat').innerText = `${data.heat_setpoint}°C`;
+                    eb('setpoint-heat').innerText = `${data.heat_setpoint} °C`;
                     eb('setpoint-dropdown-heat').value = `${data.heat_setpoint}`;
                 }
 
@@ -76,11 +76,27 @@
                     eb('setpoint-dropdown-hum').value = `${data.hum_setpoint}`;
                 }
 
-                // Überprüfe, ob heat_auto_on definiert ist und aktualisiere 
+                // Überprüfe, ob hum_auto_on definiert ist und aktualisiere 
                 if (data.hum_auto_on !== undefined) {
                     eb('hum-auto-on').checked = data.hum_auto_on;
                 }
 
+                // Überprüfe, ob Temperaturen definiert sind und aktualisiere 
+                if (data.MHZ19B.Temperature !== undefined && data.AHT2X.Temperature !== undefined) {
+
+                    const temp = (data.MHZ19B.Temperature + data.AHT2X.Temperature) / 2;
+
+                    if (temp > 0 && temp < 100)
+                    {
+                       eb('current-temperature').innerText = `${temp} °C`; 
+                    }
+                }
+                
+                // Überprüfe, ob RH definiert ist und aktualisiere 
+                if (data.AHT2X.Humidity !== undefined) {
+
+                    eb('current-temperature').innerText = `${data.AHT2X.Humidity} %`; 
+                }
             }
         };
 
