@@ -1012,9 +1012,10 @@ class ShroomerTank : Driver
     var hum_auto_on
     var MySensors
     var temp_calc
+    var hum_calc
 
     def init()
-        self.buff_max = 60
+        self.buff_max = 120
         self.calibFull = 9
         self.calibEmpty = 16
         self.tank_data = 55
@@ -1028,6 +1029,7 @@ class ShroomerTank : Driver
         self.hum_setpoint = 85
         self.hum_auto_on = 0
         self.temp_calc = 0
+        self.hum_calc = 0
     end
    
     def read_my_sensors()
@@ -1039,11 +1041,15 @@ class ShroomerTank : Driver
         if (d == nil) return 0 end                      #check for null value (too far away)
 
         self.temp_calc = d * 1 + 0
+
+        # Calc Humidity
+        d = self.MySensors['AHT2X']['Humidity']
+        if (d == nil) return 0 end
+        
+        self.hum_calc = d
     end
 
     def tank_do()
-
-        # Read Sensor data needs to be executed before this line!
         if !(self.MySensors.contains('VL53L0X')) return end
         var d = self.MySensors['VL53L0X']['Distance']
         if (d == nil) return 0 end                      #check for null value (too far away)
@@ -1086,13 +1092,13 @@ class ShroomerTank : Driver
     def every_second()
         # update tank data every second
         if !self.tank_do return nil end
-        self.read_my_sensors()
         self.tank_do()
         #print (self.tank_data)
     end
 
     def every_250ms()
-        # call PID controller 
+
+        self.read_my_sensors()
 
         #update IOs according to internal states
         #this also updates the PID controller outputs!
