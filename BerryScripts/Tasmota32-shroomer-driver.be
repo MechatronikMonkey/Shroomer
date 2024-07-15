@@ -1034,15 +1034,11 @@ class ShroomerTank : Driver
         self.MySensors = json.load(tasmota.read_sensors())
 
         # Calc Temperature
-        if !(self.MySensors.contains('MHZ19B')) return end
-        var d = self.MySensors['MHZ19B']['Temperature']
-        if (d == nil) return 0 end                      #check for null value (too far away)
-
         if !(self.MySensors.contains('AHT2X')) return end
-        d += self.MySensors['AHT2X']['Temperature']
+        var d = self.MySensors['AHT2X']['Temperature']
         if (d == nil) return 0 end                      #check for null value (too far away)
 
-        self.temp_calc = d / 2
+        self.temp_calc = d * 1 + 0
     end
 
     def tank_do()
