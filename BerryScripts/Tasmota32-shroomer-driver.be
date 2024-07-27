@@ -18,6 +18,7 @@ var GPIO_HEATFAN = 5
 var GPIO_UV_LAMP = 3
 var GPIO_HUMIDIFIER = 11
 var GPIO_FAN = 4
+var HUM_HYSTERESIS = 3
 # END
 
 class MyHttpManager
@@ -1040,7 +1041,7 @@ class ShroomerTank : Driver
         var d = self.MySensors['AHT2X']['Temperature']
         if (d == nil) return 0 end                      #check for null value (too far away)
 
-        self.temp_calc = d * 1 + 0
+        self.temp_calc = d * 0.59 + 9.75
 
         # Calc Humidity
         d = self.MySensors['AHT2X']['Humidity']
@@ -1087,18 +1088,28 @@ class ShroomerTank : Driver
 
     end
 
-    # ---------------------
+    def humidity_control_do()
 
-    def every_second()
-        # update tank data every second
-        if !self.tank_do return nil end
-        self.tank_do()
-        #print (self.tank_data)
+        if !(self.hum_auto_on) return end  #leafe if control is not enabled
+
+        if (self.hum_calc < (self.hum_setpoint - HUM_HYSTERESIS))
+            self.fog_data = "ON"
+            self.heat_fan_data = 100
+        end
+
+        if (self.hum_calc > (self.hum_setpoint + HUM_HYSTERESIS))
+            self.fog_data = "OFF"
+            self.heat_fan_data = 0
+        end
+
+        if (self.hum_calc >= 100)
+            self.fog_data = "OFF"
+            self.heat_fan_data = 0
+        end
+
     end
 
-    def every_250ms()
-
-        self.read_my_sensors()
+    def update_gpios()
 
         #update IOs according to internal states
         #this also updates the PID controller outputs!
@@ -1128,6 +1139,23 @@ class ShroomerTank : Driver
         #calculate dutycycle for fan and set it
         duty = int(self.fan_data * 10.23)
         gpio.set_pwm(GPIO_FAN,duty)
+
+    end
+
+    # ---------------------
+
+    def every_second()
+        # update tank data every second
+        if !self.tank_do return nil end
+        self.tank_do()
+        #print (self.tank_data)
+    end
+
+    def every_250ms()
+
+        self.read_my_sensors()
+        self.humidity_control_do()
+        self.update_gpios()
 
     end
 
