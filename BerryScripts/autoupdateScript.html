@@ -93,6 +93,24 @@
 
                     eb('current-hum').innerText = `${data.AHT2X.Humidity} %`; 
                 }
+
+                // Überprüfe, ob co2_auto_on definiert ist und aktualisiere 
+                if (data.co2_auto_on !== undefined) {
+                    eb('co2-auto-on').checked = data.co2_auto_on;
+                }
+
+                // Überprüfe, ob co2_setpoint definiert ist und aktualisiere 
+                if (data.co2_setpoint !== undefined) {
+                    
+                    eb('setpoint-co2').innerText = `${data.co2_setpoint} ppm`;
+                    eb('setpoint-dropdown-co2').value = `${data.co2_setpoint}`;
+                }
+
+                // Überprüfe, ob CO2 definiert ist und aktualisiere 
+                if (data.MHZ19B.CarbonDioxide !== undefined) {
+
+                    eb('current-co2').innerText = `${data.MHZ19B.CarbonDioxide} ppm`; 
+                }
             }
         };
 

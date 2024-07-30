@@ -19,6 +19,7 @@ var GPIO_UV_LAMP = 3
 var GPIO_HUMIDIFIER = 11
 var GPIO_FAN = 4
 var HUM_HYSTERESIS = 3
+var CO2_HYSTERESIS = 250
 # END
 
 class MyHttpManager
@@ -29,8 +30,7 @@ class MyHttpManager
         " 20px; background-co"
         "lor: #e0e0e0; paddin"
         "g: 20px; border-radi"
-        "us: 10px; overflow: "
-        "hidden;\">\r\n"
+        "us: 10px;\">\r\n"
         "    <!-- Äußerster C"
         "ontainer mit Übersch"
         "rift -->\r\n"
@@ -43,12 +43,17 @@ class MyHttpManager
         "\">\r\n"
         "        Automatic co"
         "ntrol\r\n"
-        "    </div>\r\n\r\n"
+        "    </div>\r\n"
+        "\t<div style=\" disp"
+        "lay: flex; justify-c"
+        "ontent: center; alig"
+        "n-items: center; fle"
+        "x-wrap: wrap;\">\r\n"
         "    <!-- Linker Kast"
         "en -->\r\n"
         "    <div style=\"wid"
-        "th: 45%; float: left"
-        "; margin-right: 7%; "
+        "th: 20%; float: left"
+        "; margin-right: 5%; "
         "margin-bottom: 20px;"
         " min-width: 360px;\""
         ">\r\n"
@@ -187,13 +192,14 @@ class MyHttpManager
         "\n"
         "        </div>\r\n"
         "    </div>\r\n\r\n"
-        "    <!-- Rechter Kas"
-        "ten -->\r\n"
+        "    <!-- Mittlerer K"
+        "asten -->\r\n"
         "    <div style=\"wid"
-        "th: 45%; float: left"
-        "; margin-bottom: 20p"
-        "x; min-width: 360px;"
-        "\">\r\n"
+        "th: 20%; float: left"
+        "; margin-right: 5%; "
+        "margin-bottom: 20px;"
+        " min-width: 360px;\""
+        ">\r\n"
         "        <div style="
         "\"border-radius: 10p"
         "x; border: 2px solid"
@@ -320,6 +326,142 @@ class MyHttpManager
         "            </div>\r"
         "\n"
         "        </div>\r\n"
+        "    </div>\r\n"
+        "    \r\n"
+        "    <!-- Rechter Kas"
+        "ten -->\r\n"
+        "    <div style=\"wid"
+        "th: 20%; float: left"
+        "; margin-bottom: 20p"
+        "x; min-width: 360px;"
+        " margin-right: 5%\">"
+        "\r\n"
+        "        <div style="
+        "\"border-radius: 10p"
+        "x; border: 2px solid"
+        " #1EC800; background"
+        "-color: #ffffff; pad"
+        "ding: 20px; text-ali"
+        "gn: center; box-shad"
+        "ow: 0 4px 8px rgba(0"
+        ", 0, 0, 0.1);\">\r\n"
+        "            <div cla"
+        "ss=\"slider-containe"
+        "r\">\r\n"
+        "              <label"
+        " class=\"switch\">\r"
+        "\n"
+        "                    "
+        "<input id=\"co2-auto"
+        "-on\" type=\"checkbo"
+        "x\" onchange=\'sendA"
+        "rguments(\"toggle_co"
+        "2_auto=1\");\'>\r\n"
+        "                    "
+        "<span class=\"slider"
+        "\"></span>\r\n"
+        "                </la"
+        "bel>\r\n"
+        "            </div>\r"
+        "\n"
+        "            <h2 styl"
+        "e=\"margin-top: -20p"
+        "x; margin-bottom: 40"
+        "px; color: #1EC800;"
+        "\">CO² control</h2>"
+        "\r\n"
+        "            <div sty"
+        "le=\"font-size: 1.2e"
+        "m; color: black; mar"
+        "gin-bottom: 15px;\">"
+        "\r\n"
+        "                <div"
+        " style=\"margin-bott"
+        "om: 40px;\">Current "
+        "ppm: <span id=\"curr"
+        "ent-co2\" style=\"po"
+        "sition: relative; to"
+        "p: 3px; left: 7px; f"
+        "ont-weight: bold; fo"
+        "nt-size: 1.5em;\">55"
+        "00 ppm</span></div>"
+        "\r\n"
+        "                <div"
+        ">Current setpoint: <"
+        "span id=\"setpoint-c"
+        "o2\">2000 ppm</span>"
+        "</div>\r\n"
+        "            </div>\r"
+        "\n"
+        "            <div sty"
+        "le=\"margin-bottom: "
+        "15px; margin-top: 20"
+        "px; display: flex; a"
+        "lign-items: center; "
+        "justify-content: cen"
+        "ter;\">\r\n"
+        "                <div"
+        " id=\"setpoint-dropd"
+        "own\" style=\"font-s"
+        "ize: 1.2em; color: b"
+        "lack;\">Setpoint:</d"
+        "iv>\r\n"
+        "                <sel"
+        "ect id=\"setpoint-dr"
+        "opdown-co2\" onchang"
+        "e=\'sendArguments(\""
+        "set_co2_point=\" + t"
+        "his.value);\' style="
+        "\"width: 100px; font"
+        "-size: 1em; padding:"
+        " 5px; border-radius:"
+        " 5px;\">\r\n"
+        "                    "
+        "<option value=\"500"
+        "\">500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"1000"
+        "\">1000 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"1500"
+        "\">1500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"2000"
+        "\">2000 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"2500"
+        "\">2500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"3000"
+        "\">3000 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"3500"
+        "\">3500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"4000"
+        "\">4000 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"4500"
+        "\">4500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"5000"
+        "\">5000 ppm</option>"
+        "\r\n"
+        "                </se"
+        "lect>\r\n"
+        "            </div>\r"
+        "\n"
+        "        </div>\r\n"
+        "    </div>\r\n"
         "    </div>\r\n"
         "</div>\r\n"
         "<!-- Stile für Slide"
@@ -482,7 +624,7 @@ class MyHttpManager
         "                    "
         "eb(\'progress-bar\')"
         ".style.width = `${da"
-        "ta.TankPerc} %`;\r\n"
+        "ta.TankPerc}%`;\r\n"
         "                }\r"
         "\n\r\n"
         "                // Ü"
@@ -677,6 +819,56 @@ class MyHttpManager
         "AHT2X.Humidity} %`; "
         "\r\n"
         "                }\r"
+        "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob co2_aut"
+        "o_on definiert ist u"
+        "nd aktualisiere \r\n"
+        "                if ("
+        "data.co2_auto_on !=="
+        " undefined) {\r\n"
+        "                    "
+        "eb(\'co2-auto-on\')."
+        "checked = data.co2_a"
+        "uto_on;\r\n"
+        "                }\r"
+        "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob co2_set"
+        "point definiert ist "
+        "und aktualisiere \r"
+        "\n"
+        "                if ("
+        "data.co2_setpoint !="
+        "= undefined) {\r\n"
+        "                    "
+        "\r\n"
+        "                    "
+        "eb(\'setpoint-co2\')"
+        ".innerText = `${data"
+        ".co2_setpoint} ppm`;"
+        "\r\n"
+        "                    "
+        "eb(\'setpoint-dropdo"
+        "wn-co2\').value = `$"
+        "{data.co2_setpoint}`"
+        ";\r\n"
+        "                }\r"
+        "\n\r\n"
+        "                // Ü"
+        "berprüfe, ob CO2 def"
+        "iniert ist und aktua"
+        "lisiere \r\n"
+        "                if ("
+        "data.MHZ19B.CarbonDi"
+        "oxide !== undefined)"
+        " {\r\n\r\n"
+        "                    "
+        "eb(\'current-co2\')."
+        "innerText = `${data."
+        "MHZ19B.CarbonDioxide"
+        "} ppm`; \r\n"
+        "                }\r"
         "\n"
         "            }\r\n"
         "        };\r\n\r\n"
@@ -730,56 +922,6 @@ class MyHttpManager
         "rsten Aufruf gewarte"
         "t wird\r\n"
         "    fetchData();")
-
-        webserver.content_send (content)
-    end
-
-    def show_tank(tank_perc)
-
-       var content = ("<div id=\"progress-o"
-       "uter-container\" sty"
-       "le=\"width: 100%; ba"
-       "ckground-color: #e0e"
-       "0e0; padding: 20px; "
-       "border-radius: 10px;"
-       " position: relative;"
-       " box-shadow: 0 4px 8"
-       "px rgba(0, 0, 0, 0.1"
-       "); margin-bottom: 20"
-       "px;\">\r\n"
-       "        <div id=\"la"
-       "bel\" style=\"positi"
-       "on: absolute; top: 1"
-       "0px; left: 10px; fon"
-       "t-size: 16px; font-w"
-       "eight: bold; color: "
-       "black;\">\r\n"
-       "            Tankanze"
-       "ige\r\n"
-       "        </div>\r\n"
-       "        <div id=\"pr"
-       "ogress-container\" s"
-       "tyle=\"width: 98%; b"
-       "ackground-color: whi"
-       "te; border-radius: 5"
-       "px; overflow: hidden"
-       "; margin-top: 40px; "
-       "margin-bottom: 10px;"
-       "\">\r\n"
-       "            <div id="
-       "\"progress-bar\" sty"
-       "le=\"width: 45%; hei"
-       "ght: 30px; backgroun"
-       "d-color: #0071ff; te"
-       "xt-align: center; li"
-       "ne-height: 30px; col"
-       "or: black;\">\r\n"
-       "                45%"
-       "\r\n"
-       "            </div>\r"
-       "\n"
-       "        </div>\r\n"
-       "    </div>")
         webserver.content_send (content)
     end
 
@@ -1014,6 +1156,8 @@ class ShroomerTank : Driver
     var MySensors
     var temp_calc
     var hum_calc
+    var co2_auto_on
+    var co2_setpoint
 
     def init()
         self.buff_max = 120
@@ -1027,10 +1171,12 @@ class ShroomerTank : Driver
         self.fan_data = 0
         self.heat_setpoint = 24
         self.heat_auto_on = 0
-        self.hum_setpoint = 85
+        self.hum_setpoint = 90
         self.hum_auto_on = 0
         self.temp_calc = 0
         self.hum_calc = 0
+        self.co2_auto_on = 0
+        self.co2_setpoint = 700
     end
    
     def read_my_sensors()
@@ -1220,7 +1366,17 @@ class ShroomerTank : Driver
         #temp_calc anfügen
         msg = string.format(",\"temp_calc\":%.2f",
         self.temp_calc)
-      tasmota.response_append(msg)
+        tasmota.response_append(msg)
+
+        #co2-auto-on anfügen
+        msg = string.format(",\"co2_auto_on\":%i",
+        self.co2_auto_on)
+        tasmota.response_append(msg)
+
+        #co2-setpoint anfügen
+        msg = string.format(",\"co2_setpoint\":%i",
+                  self.co2_setpoint)
+        tasmota.response_append(msg)
         
     end
 
@@ -1355,6 +1511,27 @@ class ShroomerTank : Driver
                 self.hum_auto_on = 0
             end
         end
+
+        if argument == "toggle_co2_auto"
+            if self.co2_auto_on == 0
+                self.co2_auto_on = 1
+            else
+                self.co2_auto_on = 0
+            end
+        end
+
+        if argument == "set_co2_point"
+            myval = int(webserver.arg(0))
+            if myval > 5000
+                myval = 5000
+            end
+
+            if myval < 500
+                myval = 500
+            end
+            self.co2_setpoint = myval
+        end
+
 
         webserver.content_response(MysensorData)
 
