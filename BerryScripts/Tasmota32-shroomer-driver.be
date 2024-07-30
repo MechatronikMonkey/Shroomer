@@ -100,14 +100,14 @@ class MyHttpManager
         "                <div"
         " style=\"margin-bott"
         "om: 40px;\">Current "
-        "temperature: <span i"
-        "d=\"current-temperat"
-        "ure\" style=\"positi"
-        "on: relative; top: 3"
-        "px; left: 7px; font-"
-        "weight: bold; font-s"
-        "ize: 1.5em;\">25°C</"
-        "span></div>\r\n"
+        "temp: <span id=\"cur"
+        "rent-temperature\" s"
+        "tyle=\"position: rel"
+        "ative; top: 3px; lef"
+        "t: 7px; font-weight:"
+        " bold; font-size: 1."
+        "3em;\">25°C</span></"
+        "div>\r\n"
         "                <div"
         ">Current setpoint: <"
         "span id=\"setpoint-h"
@@ -247,7 +247,7 @@ class MyHttpManager
         "ition: relative; top"
         ": 3px; left: 7px; fo"
         "nt-weight: bold; fon"
-        "t-size: 1.5em;\">55 "
+        "t-size: 1.3em;\">55 "
         "%</span></div>\r\n"
         "                <div"
         ">Current setpoint: <"
@@ -383,7 +383,7 @@ class MyHttpManager
         "sition: relative; to"
         "p: 3px; left: 7px; f"
         "ont-weight: bold; fo"
-        "nt-size: 1.5em;\">55"
+        "nt-size: 1.3em;\">55"
         "00 ppm</span></div>"
         "\r\n"
         "                <div"
@@ -419,6 +419,10 @@ class MyHttpManager
         "                    "
         "<option value=\"500"
         "\">500 ppm</option>"
+        "\r\n"
+        "                    "
+        "<option value=\"700"
+        "\">700 ppm</option>"
         "\r\n"
         "                    "
         "<option value=\"1000"
@@ -1135,6 +1139,54 @@ class MyHttpManager
         "</div>")
         webserver.content_send (content)
     end
+
+    def show_tank(tank_perc)
+
+        var content = ("    <div id=\"progre"
+        "ss-outer-container\""
+        " style=\"width: 100%"
+        "; background-color: "
+        "#e0e0e0; padding: 20"
+        "px; border-radius: 1"
+        "0px; position: relat"
+        "ive; box-shadow: 0 4"
+        "px 8px rgba(0, 0, 0,"
+        " 0.1); margin-bottom"
+        ": 20px;\">\r\n"
+        "        <div id=\"la"
+        "bel\" style=\"positi"
+        "on: absolute; top: 1"
+        "0px; left: 10px; fon"
+        "t-size: 16px; font-w"
+        "eight: bold; color: "
+        "black;\">\r\n"
+        "            Tankanze"
+        "ige\r\n"
+        "        </div>\r\n"
+        "        <div id=\"pr"
+        "ogress-container\" s"
+        "tyle=\"width: 98%; "
+        "background-color: #f"
+        "3f3f3; border-radius"
+        ": 5px; overflow: hid"
+        "den; margin-top: 40p"
+        "x;\">\r\n"
+        "            <div id="
+        "\"progress-bar\" sty"
+        "le=\"width: 45%; hei"
+        "ght: 30px; backgroun"
+        "d-color: #0071ff; te"
+        "xt-align: center; li"
+        "ne-height: 30px; col"
+        "or: black;\">\r\n"
+        "                45%"
+        "\r\n"
+        "            </div>\r"
+        "\n"
+        "        </div>\r\n"
+        "    </div>")
+         webserver.content_send (content)
+     end
 end
 
 class ShroomerTank : Driver
@@ -1255,6 +1307,22 @@ class ShroomerTank : Driver
 
     end
 
+    def co2_control_do()
+        if !(self.co2_auto_on) return end  #leafe if control is not enabled
+        if !(self.MySensors.contains('MHZ19B')) return end
+
+        var d = self.MySensors['MHZ19B']['CarbonDioxide']
+        if (d == nil) return 0 end                      #check for null value
+
+        if (d < (self.co2_setpoint - CO2_HYSTERESIS))
+            self.fan_data = 0
+        end
+
+        if (d > (self.co2_setpoint + CO2_HYSTERESIS))
+            self.fan_data = 100
+        end
+    end
+
     def update_gpios()
 
         #update IOs according to internal states
@@ -1301,6 +1369,7 @@ class ShroomerTank : Driver
 
         self.read_my_sensors()
         self.humidity_control_do()
+        self.co2_control_do()
         self.update_gpios()
 
     end
